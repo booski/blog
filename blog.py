@@ -1,5 +1,6 @@
 import markdown
 import re
+import urllib
 from os import chdir, listdir, path
 
 '''
@@ -86,7 +87,7 @@ def main(article):
 def application(environ, start_response):
     chdir(path.dirname(__file__))
     
-    article = environ['QUERY_STRING']
+    article = urllib.parse.unquote(environ['QUERY_STRING'])
     if not article:
         article = 'Hello world'
 
