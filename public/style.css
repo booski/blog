@@ -1,0 +1,36 @@
+body {
+    display: grid;
+    grid-template-areas: "menu contents";
+    grid-template-columns: 1fr 4fr;
+    font-size: 14pt;
+    margin: 0;
+    padding: 0;
+}
+
+contents {
+    grid-area: contents;
+    margin: 5pt 25pt;
+}
+
+menu {
+    display: flex;
+    flex-direction: column;
+    grid-area: menu;
+    border-right: 3px solid #dadada;
+    min-height: 100vh;
+}
+
+#heading {
+    font-size: 140%;
+    font-weight: bold;
+    margin: 5pt 0pt;
+}
+
+#current {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+#current:hover {
+    cursor: default;
+}
