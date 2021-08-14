@@ -74,7 +74,13 @@ def format_page(template, title, article, menu):
     return result
 
 
-def main(article):
+'''
+Central function to render an entire page given an article.
+
+Takes the article to be rendered as an argument.
+Returns the formatted page as a string.
+'''
+def render(article):
     articledir = 'articles'
     with open('page.html') as f:
         page = format_page(f.read(),
@@ -84,6 +90,12 @@ def main(article):
     return page
 
 
+'''
+WSGI entry point. Intended to be called by a WSGI-compliant web server.
+
+Reads the article to be rendered from environ['QUERY_STRING'].
+Writes the formatted result to the client.
+'''
 def application(environ, start_response):
     chdir(path.dirname(__file__))
     
@@ -95,16 +107,21 @@ def application(environ, start_response):
     if not valid_article(article):
         status = '404 Not Found'
 
-    output = main(article)
+    output = render(article)
     response_headers = [('Content-type', 'text/html'),
                         ('Content-Length', str(len(output)))]
     start_response(status, response_headers)
     return [bytes(output, 'utf-8')]
 
+'''
+Standalone entry point.
 
+Argv[1] should contain the name of the article to be rendered.
+Prints the formatted result to stdout.
+'''
 if __name__ == '__main__':
     import sys
-    article = ''
+    article = 'Hello world'
     if len(sys.argv) > 1:
         article = sys.argv[1]
-    print(main(article))
+    print(render(article))

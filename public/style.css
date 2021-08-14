@@ -18,6 +18,7 @@ menu {
     grid-area: menu;
     border-right: 3px solid #dadada;
     min-height: 100vh;
+    margin: 0;
 }
 
 #heading {
