@@ -1,7 +1,8 @@
-import markdown
 import re
 import urllib
 from os import chdir, listdir, path
+
+import markdown
 
 '''
 This function validates article names.
@@ -79,10 +80,12 @@ Central function to render an entire page given an article.
 
 Takes the article to be rendered as an argument.
 Returns the formatted page as a string.
+
+The directory containing all articles is hard-coded here.
 '''
 def render(article):
     articledir = 'articles'
-    with open('page.html') as f:
+    with open('support/page.html') as f:
         page = format_page(f.read(),
                            article,
                            format_article(articledir, article),
