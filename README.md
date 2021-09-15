@@ -18,7 +18,7 @@ The HTML output of the program is entirely defined by the files under ```support
 
 You will need a python3.7+ environment that fulfills ```requirements.txt```. A venv is recommended. The application doesn't need write access to anything. Read access is necessary for the ```articles/``` and ```support/``` subdirectories.
 
-If you don't push directly to the web server's copy of the repo under ```articles/```, you will need some way to keep the articles up to date. One way would be a scheduled task periodically pulling the repo. You could probably also set up a github web hook to trigger a pull whenever you push something. ¯\_(ツ)_/¯
+If you don't push directly to the web server's copy of the repo under ```articles/```, you will need some way to keep the articles up to date. One way would be a scheduled task periodically pulling the repo. You could probably also set up a github web hook to trigger a pull whenever you push something. 🤷
 
 
 ## Running the application
