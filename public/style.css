@@ -35,3 +35,7 @@ menu {
 #current:hover {
     cursor: default;
 }
+
+.hidden {
+    display: none;
+}

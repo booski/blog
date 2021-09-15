@@ -3,6 +3,7 @@ import urllib
 from os import chdir, listdir, path
 
 import markdown
+from git import Repo
 
 '''
 This function validates article names.
@@ -37,42 +38,63 @@ def format_menu(dir, article):
 
 
 '''
-This function translates an article from markdown to HTML.
+This function renders a template by replacing its tokens with provided values.
 
-The function takes a directory to search for articles and
-the name of the article to look for. 
-Returns a 404 message for invalid an nonexistent articles.
+It accepts a template followed by the desired replacements as key-value mapped 
+pairs. Each key is wrapped in leading and trailing '¤' characters and used to 
+search the template for placeholders to be replaced by the corresponding value.
 '''
-def format_article(dir, filename):
-    notfound = '<p class="notfound">404</p>'
-    if not valid_article(filename):
-        return notfound
-    file = path.join(dir, filename)
-    if not path.isfile(file):
-        return notfound
-    with open(file) as f:
-        html = markdown.markdown(f.read())
-    return html
-
-
-'''
-This class constructs a page by using the provided template string.
-
-The format method takes a title, an article and a menu, and inserts them 
-into the template based on the tokens ¤title¤, ¤article¤ and ¤menu¤.
-
-All arguments are expected to be fully formatted on submission.
-'''
-def format_page(template, title, article, menu):
-    replacements = {'¤title¤': title,
-                    '¤article¤': article,
-                    '¤menu¤': menu}
+def render_template(template, **replacements):
     result = template
     for key in sorted(replacements.keys(), 
                       key=len,
                       reverse=True):
-        result = result.replace(key, replacements[key])
+        result = result.replace('¤'+key+'¤', replacements[key])
     return result
+    
+
+'''
+This function translates an article from markdown to HTML.
+
+It accepts a template, the article text in markdown format, the creation date,
+and an optional updated date, and returns the rendered result.
+
+The arguments date and modified are expected to be Datetime objects or None.
+If date is None, no date info is rendered. If modified is None, no modification
+info is rendered.
+'''
+def format_article(template, text, date, modified=None):
+    ctime_vis = 'hidden'
+    ctime = ''
+    if date:
+        ctime_vis = 'visible'
+        ctime = date.strftime('%Y/%m/%d %H:%M')
+    mtime_vis = 'hidden'
+    mtime = ''
+    if modified:
+        mtime_vis = 'visible'
+        mtime = modified.strftime('%Y/%m/%d %H:%M')
+    return render_template(template,
+                           text=markdown.markdown(text),
+                           ctime_visibility=ctime_vis,
+                           ctime=ctime,
+                           mtime_visibility=mtime_vis,
+                           mtime=mtime)
+
+
+'''
+This function formats a page given a page template and some content blocks.
+
+It takes a template, a title, an article and a menu, and returns the 
+rendered result.
+
+All arguments are expected to be fully formatted as strings on submission.
+'''
+def format_page(template, title, article, menu):
+    return render_template(template,
+                           title=title,
+                           article=article,
+                           menu=menu)
 
 
 '''
@@ -85,10 +107,35 @@ The directory containing all articles is hard-coded here.
 '''
 def render(article):
     articledir = 'articles'
-    with open('support/page.html') as f:
-        page = format_page(f.read(),
+    try:
+        assert valid_article(article)
+        articlefile = path.join(articledir, article)
+        assert path.isfile(articlefile)
+        repo = Repo(articledir)
+        # An ugly, ugly hack:
+        commits = repo.iter_commits(paths=article)
+        mtime = ctime = next(commits)
+        for ctime in commits:
+            pass
+        # hack over.
+        if ctime != mtime:
+            mtime = mtime.committed_datetime
+        else:
+            mtime = None
+        ctime = ctime.committed_datetime
+    except AssertionError as e:
+        articlefile = 'support/404.html'
+        ctime = ''
+        mtime = ''
+    with open('support/page.html') as ptempl, \
+         open('support/article.html') as atempl, \
+         open(articlefile) as atext:
+        page = format_page(ptempl.read(),
                            article,
-                           format_article(articledir, article),
+                           format_article(atempl.read(),
+                                          atext.read(),
+                                          ctime,
+                                          mtime),
                            format_menu(articledir, article))
     return page
 
