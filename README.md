@@ -10,7 +10,7 @@ The application reads its contents from the hard-coded subdirectory  ```articles
 
 ## Setup
 
-You will need a python environment that fulfills ```requirements.txt```. A venv is recommended.
+You will need a python3.7+ environment that fulfills ```requirements.txt```. A venv is recommended.
 
 ## Running the application
 
