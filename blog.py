@@ -8,13 +8,16 @@ from git import Repo
 '''
 This function validates article names.
 
-A valid article name consists of whitespace and word characters.
 Returns True if a name is valid, otherwise False.
 '''
 def valid_article(article):
-    if re.match('^[\w\s]+$', article):
-        return True
-    return False
+    if article.startswith('.'):
+       return False
+    if article.endswith('.draft'):
+       return False
+    if not re.match('^[\w\s\.,;!?%-]+$', article):
+       return False
+    return True
 
 
 '''
@@ -22,6 +25,8 @@ This function formats a menu according to internal rules.
 
 Its arguments are a directory to search for articles and the current
 article. Articles with invalid names are skipped.
+
+Returns the formatted menu.
 '''
 def format_menu(dir, article):
     items = []
@@ -128,6 +133,9 @@ def render(article):
         articlefile = 'support/404.html'
         ctime = ''
         mtime = ''
+    except StopIteration as e:
+        ctime = None
+        mtime = None
     with open('support/page.html') as ptempl, \
          open('support/article.html') as atempl, \
          open(articlefile) as atext:
@@ -152,7 +160,7 @@ def application(environ, start_response):
     
     article = urllib.parse.unquote(environ['QUERY_STRING'])
     if not article:
-        article = 'Hello world'
+        article = 'README.md'
 
     status = '200 OK'
     if not valid_article(article):
@@ -172,7 +180,7 @@ Prints the formatted result to stdout.
 '''
 if __name__ == '__main__':
     import sys
-    article = 'Hello world'
+    article = 'README.md'
     if len(sys.argv) > 1:
         article = sys.argv[1]
     print(render(article))
