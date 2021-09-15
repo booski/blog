@@ -124,6 +124,7 @@ def render(article):
             mtime = None
         ctime = ctime.committed_datetime
     except AssertionError as e:
+        article="4oh4oh4..."
         articlefile = 'support/404.html'
         ctime = ''
         mtime = ''

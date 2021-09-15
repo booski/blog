@@ -17,3 +17,5 @@ You will need a python environment that fulfills ```requirements.txt```. A venv 
 ```blog.py``` can be called directly on the command line, expecting the first argument to be the article to be rendered. It will output the rendered HTML for that article.
 
 The application can also be run as a WSGI application under a web server. This has been tested on apache2.4 with mod_wsgi on Debian.
+
+When running under WSGI, the application reads the article to be rendered from ```environ['QUERY_STRING']```.
