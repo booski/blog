@@ -27,4 +27,4 @@ For ease of debugging, ```blog.py``` can be called directly on the command line.
 
 The application is generally intended to be run as a WSGI application under a web server. The testing stack is apache2.4 with mod_wsgi on Debian.
 
-When running under WSGI, the application reads the article to be rendered from ```environ['QUERY_STRING']```. Make sure any static files (mainly ```style.css```, but probably anything under ```public```) is exposed by the web server so the client can fetch them. ```blog.py``` will not serve any such files on its own.
+When running under WSGI, the application reads the article to be rendered from ```environ['PATH_INFO']```. Make sure any static files (mainly ```style.css```, but probably anything under ```public```) is exposed by the web server so the client can fetch them. ```blog.py``` will not serve any such files on its own.

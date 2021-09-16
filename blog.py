@@ -28,17 +28,18 @@ article. Articles with invalid names are skipped.
 
 Returns the formatted menu.
 '''
-def format_menu(dir, article):
+def format_menu(articledir, article):
     items = []
-    for file in sorted(listdir(dir)):
-        if not valid_article(file):
+    for item in sorted(listdir(articledir)):
+        if not valid_article(item):
             continue
-        if file != article:
-            template = '<a href="?¤article¤">¤article¤</a>'
+        if item != article:
+            template = '<a href="/¤quoted¤">¤article¤</a>'
         else:
-            template = '<a id="current" href="?¤article¤">¤article¤</a>'
-        items.append(template.replace('¤article¤',
-                                      file))
+            template = '<a id="current" href="/¤quoted¤">¤article¤</a>'
+        items.append(render_template(template,
+                                     article=item,
+                                     quoted=urllib.parse.quote(item)))
     return '\n'.join(items)
 
 
@@ -152,13 +153,13 @@ def render(article):
 '''
 WSGI entry point. Intended to be called by a WSGI-compliant web server.
 
-Reads the article to be rendered from environ['QUERY_STRING'].
+Reads the article to be rendered from environ['PATH_INFO'].
 Writes the formatted result to the client.
 '''
 def application(environ, start_response):
     chdir(path.dirname(__file__))
     
-    article = urllib.parse.unquote(environ['QUERY_STRING'])
+    article = urllib.parse.unquote(environ['PATH_INFO'])[1:]
     if not article:
         article = 'README.md'
 
