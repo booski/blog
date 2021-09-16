@@ -16,17 +16,6 @@ body {
     overflow-x: hidden;
 }
 
-#window {
-    position: absolute;
-    top: calc(75pt - 50vh);
-    left: 1px;
-    width: 100vw;
-    height: 100vh;
-    border: 0;
-    z-index: -1;
-    overflow: hidden;
-}
-
 hmenu {
     grid-area: hmenu;
 
@@ -39,16 +28,26 @@ hmenu {
     font-weight: bold;
 }
 
-h1 {
+header {
     grid-area: header;
 
     background-color: rgba(255,255,255, 0.8);
     display: flex;
-    align-items: center;
-
-    padding-left: 25pt;
+    flex-direction: column;
+    align-items: left;
     margin: 0;
+}
 
+h1 {
+    padding-left: 25pt;
+    margin-bottom: 0;
+    margin-top: 16pt;
+}
+
+bumper {
+    display: block;
+    border-top: 2pt solid black;
+    width: 100%;
 }
 
 menu {
@@ -91,4 +90,13 @@ em {
 #timestamp {
     font-size: 90%;
     color: #777;
+}
+
+.recaman {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -10;
 }
