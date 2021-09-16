@@ -12,11 +12,13 @@ Returns True if a name is valid, otherwise False.
 '''
 def valid_article(article):
     if article.startswith('.'):
-       return False
+        return False
     if article.endswith('.draft'):
-       return False
+        return False
+    if article == 'assets':
+        return False
     if not re.match('^[\w\s\.,;!?%-]+$', article):
-       return False
+        return False
     return True
 
 
