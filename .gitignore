@@ -1,4 +1,6 @@
 *~
 *.pyc
 articles/*
+articles
 venv/*
+public/assets
