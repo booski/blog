@@ -95,12 +95,14 @@ def format_article(template, title, text, date, modified=None):
 '''
 This function formats a page given a page template and some content blocks.
 
-It takes a template, an article and a menu, and returns the rendered result.
+It takes a template, a title, an article and a menu, and returns the 
+rendered result.
 
 All arguments should be fully formatted as strings on submission.
 '''
-def format_page(template, article, menu):
+def format_page(template, title, article, menu):
     return render_template(template,
+                           title=title,
                            article=article,
                            menu=menu)
 
@@ -143,6 +145,7 @@ def render(article):
          open('support/article.html') as atempl, \
          open(articlefile) as atext:
         page = format_page(ptempl.read(),
+                           article,
                            format_article(atempl.read(),
                                           article,
                                           atext.read(),
