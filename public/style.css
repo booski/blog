@@ -2,17 +2,17 @@
     --main-width: 60em;
     --side-width: 15em;
     --column-gap: 1.5em;
-    --padding: 25pt;
+    --padding: 30px;
 }
 
 body {
     display: grid;
     grid-template-areas: "hmenu header padding"
-                             "menu contents padding";
+                             "menu content padding";
     grid-template-columns: var(--side-width)
                               var(--main-width)
                               var(--side-width);
-    grid-template-rows: calc(2 * var(--padding)) auto;
+    grid-template-rows: 65px auto;
     column-gap: var(--column-gap);
     justify-content: center;
     margin: 0;
@@ -23,74 +23,7 @@ body {
     font-size: 13pt;
     font-family: sans-serif;
     position: relative;
-}
-
-menuheader {
-    grid-area: hmenu;
-
-    background-color: rgba(240,240,240, 0.6);
-    display: flex;
-    align-items: end;
-    padding-bottom: 2pt;
-
-    padding-left: 15pt;
-    font-size: 160%;
-    border-bottom: 2pt solid black;
-}
-
-menu {
-    grid-area: menu;
-
-    background-color: #fff;
-    padding: var(--padding) 15pt;
-    margin: 0;
-
-    display: flex;
-    flex-direction: column;
-    align-self: stretch;
-}
-
-heading {
-    grid-area: header;
-    background-color: rgba(255,255,255, 0.8);
-    padding-right: var(--padding);
-    margin: 0;
-    display: flex;
-    flex-direction: row;
-    align-items: end;
-    justify-content: right;
-    border-bottom: 2pt solid black;
-    font-size: 250%;
-}
-
-contents {
-    grid-area: contents;
-
-    background-color: #fff;
-    padding: 0 var(--padding) var(--padding);
-    margin-top: 0;
-}
-
-#current {
-    font-weight: bold;
-    text-decoration: none;
-    color: black;
-}
-#current:hover {
-    cursor: default;
-}
-
-.hidden {
-    display: none;
-}
-
-em {
-    color: #555;
-}
-
-#timestamp {
-    font-size: 90%;
-    color: #777;
+    z-index: -2
 }
 
 .recaman {
@@ -102,14 +35,94 @@ em {
     z-index: -1;
 }
 
+menuheader {
+    grid-area: hmenu;
+    display: flex;
+    align-items: end;
+
+    background-color: rgba(240,240,240, 0.6);
+    border-bottom: 2pt solid black;
+    padding-bottom: 2pt;
+    padding-left: 15pt;
+    font-size: 160%;
+}
+
+menu {
+    grid-area: menu;
+    align-self: stretch;
+    display: flex;
+    flex-direction: column;
+
+    background-color: #fff;
+    padding: var(--padding) 20px;
+    margin: 0;
+}
+
 #menubutton {
-    visibility: hidden;
+    display: none;
+}
+
+#current {
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
+
+#current:hover {
+    cursor: default;
+}
+
+header {
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    align-items: end;
+    justify-content: right;
+
+    font-size: 250%;
+    background-color: rgba(255,255,255, 0.8);
+    border-bottom: 2px solid black;
+    padding-right: var(--padding);
+    margin: 0;
+}
+
+content {
+    grid-area: content;
+
+    background-color: #fff;
+    padding: 0 var(--padding) var(--padding);
+    margin-top: 0;
+}
+
+.meta {
+    display: flex;
+    flex-direction: row;
+    align-items: bottom;
+    justify-content: space-between;
+}
+
+#timestamp {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    font-size: 90%;
+    color: #777;
+    text-align: right;
+}
+
+.hidden {
+    display: none;
+}
+
+em {
+    color: #555;
 }
 
 @media screen and (max-width: 1675px) {
     body {
         grid-template-areas: "hmenu header"
-                                 "menu contents";
+                                 "menu content";
         grid-template-columns: var(--side-width)
                                   var(--main-width);
         justify-content: left;
@@ -130,16 +143,20 @@ em {
     }
 }
 @media screen and (max-width: 766px) {
+    :root {
+        --padding: 15px;
+    }
     body {
         grid-template-areas: "header"
-                                 "contents";
+                                 "content";
         grid-template-columns: var(--main-width);
+        font-size: 10pt;
     }
     menuheader {
         display: none;
     }
     menu {
-        grid-area: contents;
+        grid-area: content;
         visibility: hidden;
     }
     label {

@@ -1,20 +1,30 @@
 <html lang=en>
   <head>
     <title>¤title¤</title>
+    <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" href="/static/style.css">
     <script type="text/JavaScript" src="/static/recaman.js"></script>
+    <script type="text/JavaScript">
+      var func = function() {
+          var rect = document.querySelector('header').getBoundingClientRect()
+          var r = document.querySelector('body > .recaman')
+          r.dataset.yzero = rect.y + rect.height - 1
+      }
+      window.addEventListener('load', function() {
+          func()
+          window.dispatchEvent(new Event('resize'))
+      })
+      window.addEventListener('resize', func)
+    </script>
   </head>
   <body>
     <canvas class="recaman"
-            data-yzero="99"
-            data-scale="4"
-            data-scalable="yes"></canvas>
-    <heading>erik@thuni.ng</heading>
-    <contents>
-      <h1>¤title¤</h1>
+            data-scale="4"></canvas>
+    <header>erik@thuni.ng</header>
+    <content>
       ¤article¤
-    </contents>
+    </content>
     <menuheader>
       Articles
     </menuheader>

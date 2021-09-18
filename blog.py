@@ -48,8 +48,8 @@ def format_menu(articledir, article):
 '''
 This function renders a template by replacing its tokens with provided values.
 
-It accepts a template followed by the desired replacements as key-value mapped 
-pairs. Each key is wrapped in leading and trailing '¤' characters and used to 
+It accepts a template followed by the desired replacements as key-value mapped
+pairs. Each key is wrapped in leading and trailing '¤' characters and used to
 search the template for placeholders to be replaced by the corresponding value.
 '''
 def render_template(template, **replacements):
@@ -64,14 +64,15 @@ def render_template(template, **replacements):
 '''
 This function translates an article from markdown to HTML.
 
-It accepts a template, the article text in markdown format, the creation date,
-and an optional updated date, and returns the rendered result.
+It accepts a template, the title of the article, the article text in markdown
+format, the creation date, and an optional updated date.
+It returns the rendered result.
 
-The arguments date and modified are expected to be Datetime objects or None.
-If date is None, no date info is rendered. If modified is None, no modification
-info is rendered.
+The arguments date and modified should be Datetime objects or None. If date is
+None, no date info is rendered. If modified is None, no modification info
+is rendered.
 '''
-def format_article(template, text, date, modified=None):
+def format_article(template, title, text, date, modified=None):
     ctime_vis = 'hidden'
     ctime = ''
     if date:
@@ -83,6 +84,7 @@ def format_article(template, text, date, modified=None):
         mtime_vis = 'visible'
         mtime = modified.strftime('%Y/%m/%d %H:%M')
     return render_template(template,
+                           title=title,
                            text=markdown.markdown(text),
                            ctime_visibility=ctime_vis,
                            ctime=ctime,
@@ -93,14 +95,12 @@ def format_article(template, text, date, modified=None):
 '''
 This function formats a page given a page template and some content blocks.
 
-It takes a template, a title, an article and a menu, and returns the 
-rendered result.
+It takes a template, an article and a menu, and returns the rendered result.
 
-All arguments are expected to be fully formatted as strings on submission.
+All arguments should be fully formatted as strings on submission.
 '''
-def format_page(template, title, article, menu):
+def format_page(template, article, menu):
     return render_template(template,
-                           title=title,
                            article=article,
                            menu=menu)
 
@@ -143,8 +143,8 @@ def render(article):
          open('support/article.html') as atempl, \
          open(articlefile) as atext:
         page = format_page(ptempl.read(),
-                           article,
                            format_article(atempl.read(),
+                                          article,
                                           atext.read(),
                                           ctime,
                                           mtime),
