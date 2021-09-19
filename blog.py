@@ -73,16 +73,17 @@ None, no date info is rendered. If modified is None, no modification info
 is rendered.
 '''
 def format_article(template, title, text, date, modified=None):
+    date_fmt = '%Y/%m/%d&nbsp;%H:%M'
     ctime_vis = 'hidden'
     ctime = ''
     if date:
         ctime_vis = 'visible'
-        ctime = date.strftime('%Y/%m/%d %H:%M')
+        ctime = date.strftime(date_fmt)
     mtime_vis = 'hidden'
     mtime = ''
     if modified:
         mtime_vis = 'visible'
-        mtime = modified.strftime('%Y/%m/%d %H:%M')
+        mtime = modified.strftime(date_fmt)
     return render_template(template,
                            title=title,
                            text=markdown.markdown(text),
