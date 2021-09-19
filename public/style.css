@@ -54,11 +54,11 @@ menu {
     flex-direction: column;
 
     background-color: #fff;
-    padding: var(--padding) 20px;
+    padding: var(--padding) calc(var(--padding)/2);
     margin: 0;
 }
 
-#menubutton {
+#menubutton, #checked, #unchecked {
     display: none;
 }
 
@@ -157,7 +157,12 @@ em {
     }
     menu {
         grid-area: content;
+        padding: var(--padding);
+        background-color: #f5f5f5;
+
+        transition: width 0.3s, visibility 0.3s;
         visibility: hidden;
+        width: 0;
     }
     label {
         grid-area: header;
@@ -173,16 +178,19 @@ em {
         background-size: contain;
         height: 63px;
         width: 63px;
+        display: initial;
     }
     #checked {
         background-image: url('/static/backmenu.svg');
         background-size: contain;
         height: 63px;
         width: 63px;
+        display: initial;
         visibility: hidden;
     }
     #menubutton:checked ~ menu {
         visibility: initial;
+        width: calc(100vw - var(--padding)*4);
     }
     #menubutton:checked ~ #checked {
         visibility: initial;
