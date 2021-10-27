@@ -142,9 +142,9 @@ def render(article):
     except StopIteration as e:
         ctime = None
         mtime = None
-    with open('support/page.html') as ptempl, \
-         open('support/article.html') as atempl, \
-         open(articlefile) as atext:
+    with open('support/page.html', encoding='UTF-8') as ptempl, \
+         open('support/article.html', encoding='UTF-8') as atempl, \
+         open(articlefile, encoding='UTF-8') as atext:
         page = format_page(ptempl.read(),
                            article,
                            format_article(atempl.read(),
