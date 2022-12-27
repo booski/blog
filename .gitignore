@@ -4,3 +4,4 @@ articles/*
 articles
 venv/*
 public/assets
+public/recaman.js
