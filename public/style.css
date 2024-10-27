@@ -26,6 +26,10 @@ body {
     z-index: -2
 }
 
+img {
+    max-width: 100%;
+}
+
 .recaman {
     position: absolute;
     top: 0;
