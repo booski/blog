@@ -23,6 +23,20 @@ def valid_article(article):
 
 
 '''
+These functions escape and unescape spaces in article names by
+replacing them with dashes (-). In order to disambiguate from
+'real' dashes, those are doubled.
+'''
+def escape_space(article):
+    return article.replace('-', '--').replace(' ', '-')
+
+def unescape_space(article):
+    # The following only acts on isolated underscores:
+    restored_spaces = re.sub('(?<!-)-(?!-)', ' ', article)
+    return restored_spaces.replace('--', '-')
+
+
+'''
 This function formats a menu according to internal rules.
 
 Its arguments are a directory to search for articles and the current
@@ -39,9 +53,10 @@ def format_menu(articledir, article):
             template = '<a href="/¤quoted¤">¤article¤</a>'
         else:
             template = '<a id="current" href="/¤quoted¤">¤article¤</a>'
+        item_escaped = escape_space(item)
         items.append(render_template(template,
                                      article=item,
-                                     quoted=urllib.parse.quote(item)))
+                                     quoted=urllib.parse.quote(item_escaped)))
     return '\n'.join(items)
 
 
@@ -165,7 +180,8 @@ Writes the formatted result to the client.
 def application(environ, start_response):
     chdir(path.dirname(__file__))
     
-    article = urllib.parse.unquote(environ['PATH_INFO'])[1:]
+    article_escaped = urllib.parse.unquote(environ['PATH_INFO'])[1:]
+    article = unescape_space(article_escaped)
     if not article:
         article = 'README.md'
 
@@ -190,4 +206,4 @@ if __name__ == '__main__':
     article = 'README.md'
     if len(sys.argv) > 1:
         article = sys.argv[1]
-    print(render(article))
+    print(render(unescape_space(article)))
