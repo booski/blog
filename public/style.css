@@ -30,6 +30,12 @@ img {
     max-width: 100%;
 }
 
+blockquote {
+    background-color: #fafafa;
+    color: #040404;
+    padding: 1rem;
+}
+
 .recaman {
     position: absolute;
     top: 0;

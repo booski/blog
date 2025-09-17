@@ -99,9 +99,11 @@ def format_article(template, title, text, date, modified=None):
     if modified:
         mtime_vis = 'visible'
         mtime = modified.strftime(date_fmt)
+
+    html_text = markdown.markdown(text, extensions=['footnotes'])
     return render_template(template,
                            title=title,
-                           text=markdown.markdown(text),
+                           text=html_text,
                            ctime_visibility=ctime_vis,
                            ctime=ctime,
                            mtime_visibility=mtime_vis,
@@ -190,10 +192,11 @@ def application(environ, start_response):
         status = '404 Not Found'
 
     output = render(article)
+    output_bytes = bytes(output, 'utf-8')
     response_headers = [('Content-type', 'text/html'),
-                        ('Content-Length', str(len(output)))]
+                        ('Content-Length', str(len(output_bytes)))]
     start_response(status, response_headers)
-    return [bytes(output, 'utf-8')]
+    return [output_bytes]
 
 '''
 Standalone entry point.
