@@ -1,7 +1,7 @@
 :root {
-    --main-width: 60em;
-    --side-width: 15em;
-    --column-gap: 1.5em;
+    --main-width: 60rem;
+    --side-width: 18rem;
+    --column-gap: 1.5rem;
     --padding: 30px;
 }
 
@@ -20,7 +20,7 @@ body {
     background-color: #dadada;
     min-height: calc(100vh - var(--padding)*2);
 
-    font-size: 13pt;
+    font-size: 14pt;
     font-family: sans-serif;
     position: relative;
     z-index: -2
@@ -125,10 +125,6 @@ content {
     display: none;
 }
 
-em {
-    color: #555;
-}
-
 @media screen and (max-width: 1675px) {
     body {
         grid-template-areas: "hmenu header"
@@ -160,7 +156,10 @@ em {
         grid-template-areas: "header"
                                  "content";
         grid-template-columns: var(--main-width);
-        font-size: 10pt;
+    }
+    blockquote {
+        margin-left: 0;
+        margin-right: 0;
     }
     menuheader {
         display: none;
