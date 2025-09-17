@@ -17,7 +17,7 @@ def valid_article(article):
         return False
     if article == 'assets':
         return False
-    if not re.match('^[\w\s\.,;!?%-]+$', article):
+    if not re.match('^[\w\s\.,;!?%<>&-]+$', article):
         return False
     return True
 
